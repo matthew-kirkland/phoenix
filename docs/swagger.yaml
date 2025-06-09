@@ -1,0 +1,1343 @@
+openapi: 3.0.4
+info:
+  title: Swagger Phoenix - OpenAPI 3.0
+  description: API for the Phoenix Education application
+  contact:
+    email: matthewkirkland049@gmail.com
+  version: 0.0.0
+servers:
+  - url: https://phoenixeducationhurstville.com/api/v3
+tags:
+  - name: user
+    description: Operations about users
+  - name: class
+    description: Operations about classes
+  - name: assignment
+    description: Operations about assignments
+  - name: announcement
+    description: Operations about announcements
+  - name: submission
+    description: Operations about submissions
+paths:
+  /user/register:
+    post:
+      tags:
+        - user
+      summary: Register a new user.
+      description: Register a new user.
+      operationId: registerUser
+      parameters:
+        - name: token
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/Token'
+      requestBody:
+        description: Register a new user
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Empty'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Empty'
+        '400':
+          description: Invalid input
+        '401':
+          description: Token is empty or invalid
+        '403':
+          description: User is not able to add a new user
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /user/login:
+    post:
+      tags:
+        - user
+      summary: Login a user.
+      description: Login a user.
+      operationId: userLogin
+      requestBody:
+        description: Login as a user
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginObject'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/LoginObject'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/LoginObject'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Empty'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Empty'
+        '400':
+          description: Invalid input
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /user/{userId}/details:
+    put:
+      tags:
+        - user
+      summary: Update an existing user's details.
+      description: Update an existing user by id.
+      operationId: updateUserDetails
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '123'
+        - name: token
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/Token'
+      requestBody:
+        description: Update an existing user's details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Empty'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Empty'
+        '400':
+          description: Invalid input
+        '401':
+          description: Token is empty or invalid
+        '403':
+          description: User is not able to modify this user
+        '404':
+          description: User not found
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    get:
+      tags:
+        - user
+      summary: Get an existing user's details.
+      description: Get an existing user's details by id.
+      operationId: getUserDetails
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '123'
+        - name: token
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/Token'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          description: Token is empty or invalid
+        '404':
+          description: User not found
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /user/{userId}/password:
+    put:
+      tags:
+        - user
+      summary: Update an existing user's password.
+      description: Update an existing user's password by id.
+      operationId: updateUserPassword
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '123'
+        - name: token
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/Token'
+      requestBody:
+        description: Update an existing user's details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Password'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Password'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Password'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Empty'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Empty'
+        '400':
+          description: Invalid input
+        '401':
+          description: Token is empty or invalid
+        '403':
+          description: User is not able to modify this user's password
+        '404':
+          description: User not found
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /user/{userId}/classes:
+    get:
+      tags:
+        - user
+      summary: Get an existing user's list of classes.
+      description: Get an existing user's list of classes.
+      operationId: getUserClasses
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '123'
+        - name: token
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/Token'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListOfIds'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ListOfIds'
+        '401':
+          description: Token is empty or invalid
+        '404':
+          description: User not found
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /user/{userId}/assignments:
+    get:
+      tags:
+        - user
+      summary: Get an existing user's list of assignments.
+      description: Get an existing user's list of assignments.
+      operationId: getUserAssignments
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '123'
+        - name: token
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/Token'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListOfIds'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/ListOfIds'
+        '401':
+          description: Token is empty or invalid
+        '404':
+          description: User not found
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /user/{userId}:
+    delete:
+      tags:
+        - user
+      summary: Delete a user.
+      description: Delete a user.
+      operationId: deleteUser
+      parameters:
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '123'
+        - name: token
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/Token'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Empty'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Empty'
+        '401':
+          description: Token is empty or invalid
+        '403':
+          description: User is not able to delete a user
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /class/new:
+    post:
+      tags:
+        - class
+      summary: Create a new class.
+      description: Create a new class.
+      operationId: newClass
+      parameters:
+        - name: token
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/Token'
+      requestBody:
+        description: Create a new class
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Class'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Class'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Class'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Empty'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Empty'
+        '400':
+          description: Invalid input
+        '401':
+          description: Token is empty or invalid
+        '403':
+          description: User is not able to add a new class
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /class/{classId}/details:
+    put:
+      tags:
+        - class
+      summary: Update an existing class's details.
+      description: Update an existing class by id.
+      operationId: updateClassDetails
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '123'
+        - name: token
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/Token'
+      requestBody:
+        description: Update an existing class's details
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Class'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Class'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Class'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Empty'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Empty'
+        '400':
+          description: Invalid input
+        '401':
+          description: Token is empty or invalid
+        '403':
+          description: User is not able to modify this class
+        '404':
+          description: Class not found
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    get:
+      tags:
+        - class
+      summary: Get an existing class's details.
+      description: Get an existing class's details by id.
+      operationId: getClassDetails
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '123'
+        - name: token
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/Token'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Class'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Class'
+        '401':
+          description: Token is empty or invalid
+        '404':
+          description: Class not found
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /class/{classId}/students:
+    post:
+      tags:
+        - class
+      summary: Add a student to a class.
+      description: Add a student to a class.
+      operationId: addStudentToClass
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '123'
+        - name: token
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/Token'
+      requestBody:
+        description: Add a student to a class
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                studentId:
+                  type: string
+                  example: '123'
+          application/xml:
+            schema:
+              type: object
+              properties:
+                studentId:
+                  type: string
+                  example: '123'
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                studentId:
+                  type: string
+                  example: '123'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Empty'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Empty'
+        '400':
+          description: Invalid input
+        '401':
+          description: Token is empty or invalid
+        '403':
+          description: User is not able to add students to classes
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    get:
+      tags:
+        - class
+      summary: Get a list of all students in the given class.
+      description: Get a list of all students in the given class.
+      operationId: getStudentsInClass
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '123'
+        - name: token
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/Token'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  oneOf:
+                    - $ref: "#/components/schemas/User"
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Empty'
+        '401':
+          description: Token is empty or invalid
+        '403':
+          description: User is not able to add students to classes
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /class/{classId}/students/{userId}:
+    delete:
+      tags:
+        - class
+      summary: Delete a student from the class.
+      description: Delete a student from the class.
+      operationId: deleteStudentFromClass
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '123'
+        - name: userId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '123'
+        - name: token
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/Token'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Empty'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Empty'
+        '401':
+          description: Token is empty or invalid
+        '403':
+          description: User is not able to remove students from classes
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /class/{classId}/announcements:
+    post:
+      tags:
+        - announcement
+      summary: Create a new announcement for a class.
+      description: Create a new announcement for a class.
+      operationId: createClassAnnouncement
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '123'
+        - name: token
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/Token'
+      requestBody:
+        description: Create a new announcement for a class
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Announcement'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Announcement'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Announcement'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Empty'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Empty'
+        '400':
+          description: Invalid input
+        '401':
+          description: Token is empty or invalid
+        '403':
+          description: User is not able to create announcements for this class
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    get:
+      tags:
+        - announcement
+      summary: Get details of all announcements for a class.
+      description: Get details of all announcements for a class.
+      operationId: getClassAnnouncements
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '123'
+        - name: token
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/Token'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  oneOf:
+                    - $ref: '#/components/schemas/Announcement'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  type: object
+                  oneOf:
+                    - $ref: '#/components/schemas/Announcement'
+        '401':
+          description: Token is empty or invalid
+        '403':
+          description: User is not able to see announcements for this class
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /class/{classId}/announcements/{announcementId}:
+    put:
+      tags:
+        - announcement
+      summary: Update an announcement for a class.
+      description: Update an announcement for a class.
+      operationId: updateClassAnnouncement
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '123'
+        - name: announcementId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '123'
+        - name: token
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/Token'
+      requestBody:
+        description: Update an announcement for a class
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Announcement'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Announcement'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Announcement'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Empty'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Empty'
+        '400':
+          description: Invalid input
+        '401':
+          description: Token is empty or invalid
+        '403':
+          description: User is not able to update announcements for this class
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    get:
+      tags:
+        - announcement
+      summary: Get details of an announcement for a class.
+      description: Get details of an announcement for a class.
+      operationId: getClassAnnouncement
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '123'
+        - name: announcementId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '123'
+        - name: token
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/Token'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Announcement'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Announcement'
+        '401':
+          description: Token is empty or invalid
+        '403':
+          description: User is not able to see announcements for this class
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      tags:
+        - announcement
+      summary: Delete an announcement for a class.
+      description: Delete an announcement for a class.
+      operationId: deleteClassAnnouncement
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '123'
+        - name: announcementId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '123'
+        - name: token
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/Token'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Empty'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Empty'
+        '401':
+          description: Token is empty or invalid
+        '403':
+          description: User is not able to delete announcements for this class
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /class/{classId}/assignments:
+    post:
+      tags:
+        - assignment
+      summary: Create a new assignment for a class.
+      description: Create a new assignment for a class.
+      operationId: createClassAssignment
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '123'
+        - name: token
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/Token'
+      requestBody:
+        description: Create a new assignment for a class
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Assignment'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Assignment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Assignment'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Empty'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Empty'
+        '400':
+          description: Invalid input
+        '401':
+          description: Token is empty or invalid
+        '403':
+          description: User is not able to create assignments for this class
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    get:
+      tags:
+        - assignment
+      summary: Get details of all assignments for a class.
+      description: Get details of all assignments for a class.
+      operationId: getClassAssignments
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '123'
+        - name: token
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/Token'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  oneOf:
+                    - $ref: '#/components/schemas/Assignment'
+            application/xml:
+              schema:
+                type: array
+                items:
+                  type: object
+                  oneOf:
+                    - $ref: '#/components/schemas/Assignment'
+        '401':
+          description: Token is empty or invalid
+        '403':
+          description: User is not able to see assignments for this class
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /class/{classId}/assignments/{assignmentId}:
+    put:
+      tags:
+        - assignment
+      summary: Update an assignment for a class.
+      description: Update an assignment for a class.
+      operationId: updateClassAssignment
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '123'
+        - name: assignmentId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '123'
+        - name: token
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/Token'
+      requestBody:
+        description: Update an assignment for a class
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Assignment'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Assignment'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Assignment'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Empty'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Empty'
+        '400':
+          description: Invalid input
+        '401':
+          description: Token is empty or invalid
+        '403':
+          description: User is not able to update assignments for this class
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    get:
+      tags:
+        - assignment
+      summary: Get details of an assignment for a class.
+      description: Get details of an assignment for a class.
+      operationId: getClassAssignment
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '123'
+        - name: assignmentId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '123'
+        - name: token
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/Token'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Assignment'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Assignment'
+        '401':
+          description: Token is empty or invalid
+        '403':
+          description: User is not able to see assignments for this class
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    delete:
+      tags:
+        - assignment
+      summary: Delete an assignment for a class.
+      description: Delete an assignment for a class.
+      operationId: deleteClassAssignment
+      parameters:
+        - name: classId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '123'
+        - name: assignmentId
+          in: path
+          required: true
+          schema:
+            type: string
+            example: '123'
+        - name: token
+          in: header
+          required: true
+          schema:
+            $ref: '#/components/schemas/Token'
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Empty'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Empty'
+        '401':
+          description: Token is empty or invalid
+        '403':
+          description: User is not able to delete assignments for this class
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+
+components:
+  schemas:
+    Empty:
+      type: object
+
+    User:
+      type: object
+      properties:
+        nameFirst:
+          type: string
+          example: 'John'
+        nameLast:
+          type: string
+          example: 'Doe'
+        email:
+          type: string
+          example: 'johndoe@gmail.com'
+        phone:
+          type: string
+          example: '0444-444-444'
+        school:
+          type: string
+          example: 'Blakehurst High School'
+        year:
+          type: integer
+          format: int64
+          example: 9
+        DOB:
+          type: string
+          format: date-time
+        emailNotif:
+          type: boolean
+        smsNotif:
+          type: boolean
+        classesLearning:
+          type: array
+          items:
+            type: object
+            oneOf:
+              - $ref: "#/components/schemas/Class"
+        upcomingClassesLearning:
+          type: array
+          items:
+            type: object
+            oneOf:
+              - $ref: "#/components/schemas/Class"
+        classesTeaching:
+          type: array
+          items:
+            type: object
+            oneOf:
+              - $ref: "#/components/schemas/Class"
+        upcomingClassesTeaching:
+          type: array
+          items:
+            type: object
+            oneOf:
+              - $ref: "#/components/schemas/Class"
+
+    Class:
+      type: object
+      properties:
+        classId:
+          type: string
+          example: '123'
+        title:
+          type: string
+          example: 'My Class'
+        description:
+          type: string
+          example: 'Class description'
+        startDay:
+          type: string
+          example: 'Monday'
+        startTime:
+          type: string
+          format: time
+          example: '16:00'
+        duration:
+          type: string
+          format: duration
+          example: '01:00'
+        tutors:
+          type: array
+          items:
+            type: object
+            oneOf:
+              - $ref: "#/components/schemas/User"
+        students:
+          type: array
+          items:
+            type: object
+            oneOf:
+              - $ref: "#/components/schemas/User"
+        assignments:
+          type: array
+          items:
+            type: object
+            oneOf:
+              - $ref: "#/components/schemas/Assignment"
+
+    Announcement:
+      type: object
+      properties:
+        announcementId:
+          type: string
+          example: '123'
+        title:
+          type: string
+          example: 'Announcement Title'
+        message:
+          type: string
+          example: 'Announcement message'
+
+    Assignment:
+      type: object
+      properties:
+        assignmentId:
+          type: string
+          example: '123'
+        classId:
+          type: string
+          example: '123'
+        title:
+          type: string
+          example: 'Assignment Title'
+        description:
+          type: string
+          example: 'Assignment description'
+
+    Token:
+      type: object
+      properties:
+        sessionId:
+          type: string
+          example: '123'
+        userId:
+          type: string
+          example: '123'
+        timeIssued:
+          type: string
+          format: date-time
+
+    Password:
+      type: object
+      properties:
+        oldPassword:
+          type: string
+          example: 'oldPassword'
+        newPassword:
+          type: string
+          example: 'newPassword'
+
+    LoginObject:
+      type: object
+      properties:
+        email:
+          type: string
+          example: 'johndoe@gmail.com'
+        password:
+          type: string
+          example: 'newPassword'
+
+    ListOfIds:
+      type: array
+      items:
+        type: string
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          example: 'error'
+      required:
+        - message
