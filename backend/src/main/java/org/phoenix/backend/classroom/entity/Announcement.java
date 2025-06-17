@@ -13,36 +13,36 @@ public class Announcement {
     public Announcement(String classId, String title, String message, LocalDateTime timePosted) {
         this.announcementId = UUID.randomUUID().toString();
         this.classId = classId;
-        this.title = title;
-        this.message = message;
+        this.setTitle(title);
+        this.setMessage(message);
         this.timePosted = timePosted;
     }
 
     public String getAnnouncementId() {
-        return this.announcementId;
+        return announcementId;
     }
 
     public String getClassId() {
-        return this.classId;
+        return classId;
     }
 
     public String getTitle() {
-        return this.title;
-    }
-
-    public String getMessage() {
-        return this.message;
-    }
-
-    public LocalDateTime getTimePosted() {
-        return this.timePosted;
+        return title;
     }
 
     public void setTitle(String title) {
         this.title = title;
     }
 
+    public String getMessage() {
+        return message;
+    }
+
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public LocalDateTime getTimePosted() {
+        return timePosted;
     }
 }

@@ -14,45 +14,45 @@ public class Assignment {
     public Assignment(String classId, String title, String description, LocalDateTime dueDate, LocalDateTime timePosted) {
         this.assignmentId = UUID.randomUUID().toString();
         this.classId = classId;
-        this.title = title;
-        this.description = description;
-        this.dueDate = dueDate;
+        this.setTitle(title);
+        this.setDescription(description);
+        this.setDueDate(dueDate);
         this.timePosted = timePosted;
     }
 
     public String getAssignmentId() {
-        return this.assignmentId;
+        return assignmentId;
     }
 
     public String getClassId() {
-        return this.classId;
+        return classId;
     }
 
     public String getTitle() {
-        return this.title;
-    }
-
-    public String getDescription() {
-        return this.description;
-    }
-
-    public LocalDateTime getDueDate() {
-        return this.dueDate;
-    }
-
-    public LocalDateTime getTimePosted() {
-        return this.timePosted;
+        return title;
     }
 
     public void setTitle(String title) {
         this.title = title;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
     public void setDescription(String description) {
         this.description = description;
     }
 
+    public LocalDateTime getDueDate() {
+        return dueDate;
+    }
+
     public void setDueDate(LocalDateTime dueDate) {
         this.dueDate = dueDate;
+    }
+
+    public LocalDateTime getTimePosted() {
+        return timePosted;
     }
 }

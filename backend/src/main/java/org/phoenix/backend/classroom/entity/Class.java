@@ -17,11 +17,11 @@ public class Class {
 
     public Class(String title, String description, String day, LocalTime startTime, Duration duration) {
         this.classId = UUID.randomUUID().toString();
-        this.title = title;
-        this.description = description;
-        this.day = day;
-        this.startTime = startTime;
-        this.duration = duration;
+        this.setTitle(title);
+        this.setDescription(description);
+        this.setDay(day);
+        this.setStartTime(startTime);
+        this.setDuration(duration);
         this.tutors = new ArrayList<User>();
         this.students = new ArrayList<User>();
     }
@@ -34,20 +34,40 @@ public class Class {
         return title;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public String getDescription() {
         return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getDay() {
         return day;
     }
 
+    public void setDay(String day) {
+        this.day = day;
+    }
+
     public LocalTime getStartTime() {
         return startTime;
     }
 
+    public void setStartTime(LocalTime startTime) {
+        this.startTime = startTime;
+    }
+
     public Duration getDuration() {
         return duration;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
     }
 
     public ArrayList<User> getTutors() {
@@ -56,24 +76,5 @@ public class Class {
 
     public ArrayList<User> getStudents() {
         return students;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setDay(String day) {
-        this.day = day;
-    }
-
-    public void setStartTime(LocalTime startTime) {
-        this.startTime = startTime;
-    }
-
-    public void setDuration(Duration duration) {
-        this.duration = duration;
     }
 }
