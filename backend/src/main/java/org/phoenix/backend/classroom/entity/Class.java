@@ -1,4 +1,4 @@
-package org.phoenix.backend.entity;
+package org.phoenix.backend.classroom.entity;
 
 import java.time.Duration;
 import java.time.LocalTime;

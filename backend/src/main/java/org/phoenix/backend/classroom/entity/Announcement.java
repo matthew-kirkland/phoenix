@@ -1,4 +1,4 @@
-package org.phoenix.backend.entity;
+package org.phoenix.backend.classroom.entity;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

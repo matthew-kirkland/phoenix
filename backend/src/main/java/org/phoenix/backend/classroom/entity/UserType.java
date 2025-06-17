@@ -1,4 +1,4 @@
-package org.phoenix.backend.entity;
+package org.phoenix.backend.classroom.entity;
 
 public enum UserType {
     STUDENT, PARENT, TUTOR, ADMIN, MASTER
