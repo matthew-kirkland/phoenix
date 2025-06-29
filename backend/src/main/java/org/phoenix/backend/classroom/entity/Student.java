@@ -9,6 +9,7 @@ public class Student extends User {
     private boolean emailNotif;
     private boolean smsNotif;
     private ArrayList<Class> lessons;
+    private ArrayList<Assignment> assignments;
 
     public Student(String email, String password, String phone, String nameFirst, String nameLast, LocalDate DOB, String school, int year) {
         super(email, password, phone, nameFirst, nameLast, DOB);
